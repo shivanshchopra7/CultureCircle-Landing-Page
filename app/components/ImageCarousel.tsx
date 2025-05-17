@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Heart, Bell, Share2 } from "lucide-react";
 
 const images = [
@@ -12,6 +12,8 @@ const images = [
 
 export default function ImageCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -19,6 +21,28 @@ export default function ImageCarousel() {
 
   const goToNext = () => {
     setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.changedTouches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    touchEndX.current = e.changedTouches[0].clientX;
+    handleSwipeGesture();
+  };
+
+  const handleSwipeGesture = () => {
+    const distance = touchStartX.current - touchEndX.current;
+    const threshold = 50; // min swipe distance to trigger
+
+    if (distance > threshold) {
+      // Swiped left
+      goToNext();
+    } else if (distance < -threshold) {
+      // Swiped right
+      goToPrevious();
+    }
   };
 
   const selectImage = (index: number) => {
@@ -35,7 +59,11 @@ export default function ImageCarousel() {
       </div>
 
       {/* Main Image Section with arrows */}
-      <div className="relative flex items-center justify-center">
+      <div
+        className="relative flex items-center justify-center"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         <button
           className="absolute left-0 text-3xl px-3 py-1 font-bold z-10"
           onClick={goToPrevious}
@@ -71,25 +99,21 @@ export default function ImageCarousel() {
         ))}
       </div>
 
-      {/* Bottom section: Shark Sale + Thumbnails */}
-      {/* Bottom section: Shark Sale + Thumbnails */}
-<div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-center gap-4 sm:gap-6">
-
-  {/* Thumbnails */}
-  <div className="flex flex-wrap sm:flex-nowrap justify-center gap-3 sm:gap-4 overflow-x-auto px-1 no-scrollbar">
-    {images.map((img, index) => (
-      <img
-        key={index}
-        src={img}
-        onClick={() => selectImage(index)}
-        className={`w-14 h-14 sm:w-20 sm:h-16 object-cover rounded cursor-pointer border-2 transition-all duration-300 ${
-          currentIndex === index ? "border-black scale-105" : "border-transparent"
-        }`}
-      />
-    ))}
-  </div>
-</div>
-
+      {/* Thumbnails */}
+      <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-center gap-4 sm:gap-6">
+        <div className="flex sm:flex-nowrap gap-3 sm:gap-4 overflow-x-auto px-1 no-scrollbar whitespace-nowrap scroll-smooth">
+          {images.map((img, index) => (
+            <img
+              key={index}
+              src={img}
+              onClick={() => selectImage(index)}
+              className={`w-14 h-14 sm:w-20 sm:h-16 object-cover rounded cursor-pointer border-2 transition-all duration-300 ${
+                currentIndex === index ? "border-black scale-105" : "border-transparent"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
