@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+1. Planning and Strategy:
+Technology Selection:
 
-## Getting Started
+I chose Next.js for the web because it has built-in server-side rendering and works well with React components. It also integrates easily with Tailwind CSS, which is great for quick styling.
 
-First, run the development server:
+Tailwind CSS helps with responsiveness and scalability, making it easier to manage layout, spacing, and typography.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Component Architecture & Data Flow:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+I broke down the page into smaller, reusable components for both web and mobile.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Next.js will fetch product details using static site generation (SSG) or server-side rendering (SSR).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Challenges:
 
-## Learn More
+A key challenge is ensuring the design is pixel-perfect across both web and mobile due to different screen sizes and densities.
 
-To learn more about Next.js, take a look at the following resources:
+2. Design Decisions:
+UI/UX Design:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+I made design decisions to match the provided Figma file, focusing on clean typography, well-organized sections, and intuitive navigation.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+For the web version, I used Flexbox and Grid systems in Tailwind to make the layout responsive.
 
-## Deploy on Vercel
+Responsive Design & Accessibility:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+I used Tailwind's responsive utilities (sm:, md:, lg:) throughout the code to ensure the layout adapts to different screen sizes.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+State Management and API Integration:
+
+For the web, I used React state to manage product-related details (like selected variants and reviews).
+
+3. Implementation Details:
+Error Handling and Edge Cases:
+
+I included fallback UI (e.g., loading spinners or error messages) for cases when the product data fails to load.
+
+For edge cases (e.g., missing images or unavailable variants), I displayed placeholders or messages.
+
+Performance Optimizations:
+
+For the web version, I used Next.js's next/image for automatic image resizing and lazy loading to improve performance.
+
+4. Deployment and Hosting:
+Challenges During Deployment:
+
+The main challenge was ensuring both the web and mobile versions were deployed with the correct configurations (environment variables and settings).
+
+The web version was deployed on Vercel (Next.js), while the mobile app went to Google Play and Apple App Store, requiring attention to store-specific guidelines.
+
+Environment Variable Management and CI/CD Setup:
+
+I used Vercel’s environment configuration for the web and Flutter’s .env package for mobile to manage environment variables securely.
+
+Hosting Platforms and Database Integration:
+
+The web version was hosted on Vercel, while the mobile app was deployed to app stores. For the backend, I used Node.js/Express to fetch product data from a database (e.g., PostgreSQL or MongoDB).
+
+Main Approach:
+I focused on clean design principles, taking inspiration from the Culture Circle website. I emphasized whitespace, typography, and the proper use of elements. I used Tailwind’s media queries throughout the code to ensure responsiveness. I started by analyzing the layout and breaking it down into components to ensure a well-structured and organized implementation.
